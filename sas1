@@ -1,0 +1,28 @@
+/* data library for reading/writing data */
+libname mylib '~/Stats506_F18/Examples/SAS/data/';
+
+/* create a short name for recs data */
+data recs;
+ set mylib.recs2009_public_v4;
+
+proc means data=recs;
+ var cdd65; 
+ class regionc;
+
+/* proc sort for use with 'by' in proc means */
+proc sort data=recs;
+ by regionc;
+
+/************
+ PROC SUMMARY
+ ***********/
+
+proc summary data=recs;;
+ class regionc;
+ output out=meanstats
+   mean(kwh) = mean_kwh
+   std(kwh) = std_kwh;
+
+proc print data=meanstats;
+
+run;
